@@ -24,13 +24,22 @@ class Article(db.Model, SerializerMixin):
     def __repr__(self):
         return f'Article {self.id} by {self.author}'
 
-class User(db.Model, SerializerMixin):
-    __tablename__ = 'users'
+# class User(db.Model, SerializerMixin):
+#     __tablename__ = 'users'
 
+#     id = db.Column(db.Integer, primary_key=True)
+#     username = db.Column(db.String, unique=True)
+
+#     articles = db.relationship('Article', backref='user')
+
+#     def __repr__(self):
+#         return f'User {self.username}, ID {self.id}'
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
 
-    articles = db.relationship('Article', backref='user')
-
-    def __repr__(self):
-        return f'User {self.username}, ID {self.id}'
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username
+        }
